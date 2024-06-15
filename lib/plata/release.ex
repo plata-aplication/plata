@@ -14,7 +14,6 @@ defmodule Plata.Release do
   end
 
   def rollback(repo, version) do
-    Application.ensure_all_started(:ssl)
     load_app()
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
   end
@@ -24,6 +23,7 @@ defmodule Plata.Release do
   end
 
   defp load_app do
+    Application.ensure_all_started(:ssl)
     Application.load(@app)
   end
 end
